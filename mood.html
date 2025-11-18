@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mood Checker 😊</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f2f2f2;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 18px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Mood Checker 😃</h2>
+
+        <label>1. How energetic do you feel? ⚡</label><br>
+        <select id="q1">
+            <option value="happy">High 😊</option>
+            <option value="sad">Low 😞</option>
+            <option value="angry">Very Low 😡</option>
+        </select><br><br>
+
+        <label>2. How is your mind right now? 🧠</label><br>
+        <select id="q2">
+            <option value="happy">Relaxed 😌</option>
+            <option value="stressed">Stressed 😣</option>
+            <option value="angry">Irritated 😤</option>
+        </select><br><br>
+
+        <label>3. How was your day? 🌤️</label><br>
+        <select id="q3">
+            <option value="happy">Good 😀</option>
+            <option value="sad">Bad 😢</option>
+            <option value="neutral">Normal 😐</option>
+        </select><br><br>
+
+        <button onclick="checkMood()">Check Mood 🎯</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function checkMood() {
+            let q1 = document.getElementById("q1").value;
+            let q2 = document.getElementById("q2").value;
+            let q3 = document.getElementById("q3").value;
+
+            let all = [q1, q2, q3];
+
+            let count = {};
+            all.forEach(m => {
+                count[m] = (count[m] || 0) + 1;
+            });
+
+            let mood = Object.keys(count).reduce((a, b) => 
+                count[a] > count[b] ? a : b
+            );
+
+            let emoji = {
+                happy: "😊",
+                sad: "😢",
+                angry: "😡",
+                stressed: "😣",
+                neutral: "😐"
+            };
+
+            document.getElementById("result").innerHTML = 
+                emoji[mood] + " Your Mood: " + mood.toUpperCase() + " " + emoji[mood];
+        }
+    </script>
+
+</body>
+</html>
