@@ -1,0 +1,14 @@
+*{box-sizing:border-box}
+body{font-family:Inter, system-ui, Arial; display:flex; min-height:100vh; align-items:center; justify-content:center; margin:0; background:linear-gradient(180deg,#f7f7f9,#e9eef8)}
+main{width:92%;max-width:980px;padding:18px;border-radius:12px;background:white;box-shadow:0 8px 30px rgba(15,30,60,0.08)}
+h1{margin:0 0 6px;font-size:20px;text-align:center}
+.hint{margin:0 0 12px;text-align:center;color:#555}
+.stage{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+video#cam{width:320px;height:240px;border-radius:8px;background:#000;object-fit:cover;display:block;border:1px solid #ddd}
+canvas#game{background:#fff;border-radius:8px;border:1px solid #ddd;box-shadow:0 6px 18px rgba(20,30,60,0.04)}
+.controls{display:flex;gap:8px;justify-content:center;margin:12px 0}
+button{padding:8px 14px;border-radius:8px;border:1px solid #2b6cb0;background:#2b6cb0;color:white;cursor:pointer}
+button:disabled{opacity:0.5}
+.message{margin-top:10px;text-align:center;color:#b33}
+footer{margin-top:12px;text-align:center;color:#666;font-size:12px}
+@media (max-width:720px){video#cam{width:240px;height:180px}canvas#game{width:320px;height:160px}}
