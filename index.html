@@ -1,309 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mood Checker</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            /* Theme Adjustment: Soft, magical pastels */
-            background: linear-gradient(45deg, #a8edea, #fed6e3, #ff9a9e, #fecfef);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            color: #333;
-            text-align: center;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 25px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-            position: relative;
-            z-index: 10;
-        }
-
-        /* NEW: Mood Checker Icon */
-        .mood-checker-icon {
-            width: 150px;
-            height: 150px;
-            font-size: 80px;
-            line-height: 150px;
-            margin: 20px auto;
-            border-radius: 50%;
-            background: #fff0f5; /* Light pink background */
-            box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
-            animation: pulse 1.5s ease-in-out infinite alternate;
-        }
-        @keyframes pulse {
-            from { box-shadow: 0 0 15px rgba(255, 105, 180, 0.6); transform: scale(1); }
-            to { box-shadow: 0 0 35px rgba(255, 105, 180, 1); transform: scale(1.05); }
-        }
-        
-        h1 {
-            font-size: 2.8em;
-            color: #ff6b6b;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 5px;
-        }
-        .question {
-            font-size: 1.6em;
-            margin: 25px 0;
-            color: #444;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .mood-button {
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-            text-align: left;
-        }
-        .start-button {
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-        }
-        .mood-button:hover, .start-button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        .mood-button.selected {
-            background-color: #4ecdc4; /* Teal Green */
-            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.5);
-            transform: scale(1.05);
-        }
-        
-        /* NEW: Result Styling */
-        .result {
-            margin-top: 20px;
-            padding: 30px 15px;
-            border-radius: 15px;
-            animation: fadeIn 1s;
-            transition: background-color 0.5s;
-        }
-        
-        /* NEW: Big Emoji Display */
-        .result-emoji {
-            font-size: 100px;
-            display: block;
-            margin-bottom: 10px;
-            animation: scaleIn 0.5s ease-out;
-        }
-        @keyframes scaleIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        .result h2 {
-            font-size: 2.5em;
-            margin-top: 0;
-            color: #444;
-        }
-        .result p {
-            font-size: 1.1em;
-            margin-bottom: 25px;
-        }
-
-        /* Sparkle styles remain the same */
-        .sparkle {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
-            opacity: 0;
-            pointer-events: none;
-            animation: sparkle-move 4s linear infinite;
-        }
-        @keyframes sparkle-move {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-            5% { opacity: 1; }
-            50% { opacity: 0.8; }
-            95% { opacity: 0.1; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartGaming — Dinosaur Hand Gesture Game</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <div class="mood-checker-icon" id="main-icon">🤔</div>
-        <h1>Mood Checker</h1>
-        <div id="content">
-            <p>Welcome! Answer these mystical questions to reveal your mood. 🌟</p>
-            <button id="start-btn" class="start-button">Begin the Enchantment</button>
-        </div>
+  <main>
+    <h1>SmartGaming — Dinosaur Hand Gesture Game</h1>
+    <p class="hint">Raise your hand in front of the camera to make the dinosaur jump.</p>
+
+    <div class="controls">
+      <button id="startBtn">Start</button>
+      <button id="stopBtn" enabled>Stop</button>
+      <label><input type="checkbox" id="showCam" checked> Show camera</label>
     </div>
 
-    <script>
-        const questions = [
-            {
-                question: "What color makes you feel most alive? 🌈",
-                options: ["Bright red (Energetic)", "Calm blue (Relaxed)", "Sunny yellow (Happy)", "Deep purple (Mysterious)", "Green (Balanced)"]
-            },
-            {
-                question: "How do you feel about a spontaneous adventure? 🏞",
-                options: ["Excited! (Adventurous)", "A bit nervous (Cautious)", "Love it! (Thrilled)", "Prefer planning (Thoughtful)", "Meh, okay (Neutral)"]
-            },
-            {
-                question: "What's your go-to activity on a lazy day? ☕",
-                options: ["Dancing wildly (Energetic)", "Reading a book (Calm)", "Chatting with friends (Social)", "Staring at the sky (Dreamy)", "Napping (Relaxed)"]
-            },
-            {
-                question: "How's your energy level right now? ⚡",
-                options: ["Super high! (Buzzing)", "Steady and chill (Balanced)", "Low, need a boost (Tired)", "Creative and flowing (Inspired)", "Motivated to conquer (Driven)"]
-            },
-            {
-                question: "If you were a weather, what would you be? 🌤",
-                options: ["Sunny and warm (Joyful)", "Stormy and intense (Passionate)", "Gentle breeze (Peaceful)", "Foggy and mysterious (Introspective)", "Rainy and refreshing (Renewed)"]
-            }
-        ];
+    <div class="stage">
+      <video id="cam" autoplay playsinline></video>
+      <canvas id="game" width="800" height="200"></canvas>
+    </div>
 
-        let currentQuestion = 0;
-        let moodScore = 0;
-        const mainIcon = document.getElementById('main-icon'); // Get the main icon element once
+    <div id="message" class="message"></div>
 
-        function startQuiz() {
-            // Reset state for a new quiz
-            currentQuestion = 0;
-            moodScore = 0;
-            
-            // Update the main icon to a thinking/analyzing state
-            mainIcon.innerHTML = '🧐'; 
-            mainIcon.style.boxShadow = `0 0 25px rgba(255, 105, 180, 0.6)`;
-            
-            loadQuestion();
-        }
+    <footer>
+      <small>Uses MediaPipe Hands (CDN). Works best on Chrome/Edge. Allow camera access.</small>
+    </footer>
+  </main>
 
-        function loadQuestion() {
-            document.getElementById('content').innerHTML = `
-                <div class="question">${questions[currentQuestion].question}</div>
-                <div class="options" id="options-container">
-                    ${questions[currentQuestion].options.map((option, index) => 
-                        // Note: Using handleAnswer(this) inside the string is generally reliable for dynamically generated content
-                        `<button class="mood-button" data-choice="${index}" onclick="handleAnswer(this)">${option}</button>`
-                    ).join('')}
-                </div>
-            `;
-        }
-        
-        function handleAnswer(clickedButton) {
-            // 1. Visual Feedback (Green/Red State)
-            const buttons = document.querySelectorAll('#options-container .mood-button');
-            buttons.forEach(btn => btn.classList.remove('selected'));
-            clickedButton.classList.add('selected');
-
-            // 2. Score and Proceed after a short delay for visual feedback
-            setTimeout(() => {
-                const choice = parseInt(clickedButton.getAttribute('data-choice'));
-                answer(choice);
-            }, 300);
-        }
-
-        function answer(choice) {
-            moodScore += choice;
-            currentQuestion++;
-            if (currentQuestion < questions.length) {
-                loadQuestion(); // Go to next question
-            } else {
-                showResult(); // Quiz complete
-            }
-        }
-
-        function showResult() {
-            let mood;
-            let resultColor;
-            let resultEmoji;
-            let desc;
-            
-            // Define mood properties, emoji, and color based on score
-            if (moodScore <= 5) {
-                mood = "Calm Dreamer";
-                resultEmoji = "😌";
-                resultColor = "#81c784"; // Light Green
-                desc = "You've tapped into a peaceful, reflective state. Breathe deep and enjoy the tranquility. 🧘";
-            } else if (moodScore <= 10) {
-                mood = "Balanced Wanderer";
-                resultEmoji = "🙂";
-                resultColor = "#64b5f6"; // Light Blue
-                desc = "Steady, grounded, and ready for whatever comes next. You're in a great flow state. 🌊";
-            } else if (moodScore <= 15) {
-                mood = "Joyful Spark";
-                resultEmoji = "😁";
-                resultColor = "#ffeb3b"; // Bright Yellow
-                desc = "Happiness and light radiate from you! It's the perfect time to celebrate the small things. ✨";
-            } else if (moodScore <= 20) {
-                mood = "Energetic Adventurer";
-                resultEmoji = "🤩";
-                resultColor = "#ff8a65"; // Light Orange
-                desc = "Your energy is soaring! Go explore, create, and conquer the world around you. 🚀";
-            } else {
-                mood = "Passionate Storm";
-                resultEmoji = "🔥";
-                resultColor = "#e57373"; // Soft Red
-                desc = "Intense feelings are flowing. Channel that powerful energy into something constructive and creative. 🌋";
-            }
-
-            // Update the main icon to the result emoji
-            mainIcon.innerHTML = resultEmoji;
-            mainIcon.style.boxShadow = `0 0 30px ${resultColor}`;
-
-            document.getElementById('content').innerHTML = `
-                <div class="result" style="background-color: ${resultColor}; color: #333; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);">
-                    <span class="result-emoji">${resultEmoji}</span>
-                    <h2>You are a ${mood}!</h2>
-                    <p>${desc}</p>
-                    <button onclick="location.reload()" class="start-button" style="background-color: #555; color: white; border-radius: 25px; padding: 10px 30px;">
-                        Check Mood Again
-                    </button>
-                </div>
-            `;
-        }
-
-        // --- FIX: Use Event Listener for Reliable Startup ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const startButton = document.getElementById('start-btn');
-            if (startButton) {
-                startButton.addEventListener('click', startQuiz);
-            }
-        });
-        // ---------------------------------------------------
-
-
-        // Sparkle functions (no change)
-        function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = Math.random() * 100 + 'vw';
-            sparkle.style.top = Math.random() * 100 + 'vh';
-            sparkle.style.animationDelay = Math.random() * 4 + 's';
-            document.body.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 4000);
-        }
-        setInterval(createSparkle, 300);
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
