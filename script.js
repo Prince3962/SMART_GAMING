@@ -163,8 +163,8 @@ async function initHands() {
     onFrame: async () => {
       await hands.send({image: cam});
     },
-    width: 640,
-    height: 480
+    width: 1280,
+    height: 720
   });
   camera.start();
   message.textContent = '';
@@ -179,7 +179,7 @@ function onHandsResults(results) {
     const wristY = lm[0].y;
     const midTipY = lm[12].y;
     // MediaPipe y 0=top, 1=bottom. When midTipY < wristY - threshold => hand raised
-    if (midTipY < wristY - 0.08) {
+    if (midTipY < wristY - 0.03) {
       // raised
       const now = Date.now();
       if (now - lastJump > 350) jump();
